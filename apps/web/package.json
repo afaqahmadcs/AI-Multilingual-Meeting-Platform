@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:auth": "node --experimental-strip-types test/token-auth.test.ts"
+    "test:auth": "node --experimental-strip-types test/token-auth.test.ts",
+    "test:translate": "node --experimental-strip-types test/translation-integration.test.ts",
+    "test": "node --experimental-strip-types test/token-auth.test.ts && node --experimental-strip-types test/translation-integration.test.ts"
   },
   "dependencies": {
     "@linguameet/ai-translator": "*",

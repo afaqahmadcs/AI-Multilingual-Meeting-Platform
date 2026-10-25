@@ -14,6 +14,7 @@ import {
   Users,
   Share2,
   PhoneOff,
+  Sliders,
 } from 'lucide-react';
 import { SupportedLanguage } from '@linguameet/types';
 
@@ -25,6 +26,7 @@ interface ControlsBarProps {
   audioTranslationEnabled: boolean;
   isChatOpen: boolean;
   isParticipantsOpen: boolean;
+  isSettingsOpen?: boolean;
   unreadCount?: number;
   userLanguage: SupportedLanguage;
   translationFeatureEnabled?: boolean;
@@ -35,6 +37,7 @@ interface ControlsBarProps {
   onToggleAudioTranslation: () => void;
   onToggleChat: () => void;
   onToggleParticipants: () => void;
+  onToggleSettings?: () => void;
   onOpenInvite: () => void;
   onLeaveMeeting: () => void;
 }
@@ -47,6 +50,7 @@ export const ControlsBar: React.FC<ControlsBarProps> = ({
   audioTranslationEnabled,
   isChatOpen,
   isParticipantsOpen,
+  isSettingsOpen = false,
   unreadCount = 0,
   userLanguage,
   translationFeatureEnabled = false,
@@ -57,6 +61,7 @@ export const ControlsBar: React.FC<ControlsBarProps> = ({
   onToggleAudioTranslation,
   onToggleChat,
   onToggleParticipants,
+  onToggleSettings,
   onOpenInvite,
   onLeaveMeeting,
 }) => {
@@ -192,6 +197,22 @@ export const ControlsBar: React.FC<ControlsBarProps> = ({
         >
           <Share2 className="w-5 h-5" />
         </button>
+
+        {/* Audio & Translation Settings */}
+        {onToggleSettings && (
+          <button
+            type="button"
+            onClick={onToggleSettings}
+            className={`p-3 rounded-xl transition-all ${
+              isSettingsOpen
+                ? 'bg-indigo-600 text-white'
+                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+            }`}
+            title="Audio & Translation Controls"
+          >
+            <Sliders className="w-5 h-5" />
+          </button>
+        )}
 
         {/* Leave Meeting */}
         <button
