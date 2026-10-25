@@ -7,7 +7,8 @@
     "build": "tsc",
     "clean": "rimraf dist",
     "test": "node dist/poc/validate-urdu.js",
-    "test:poc": "npm run build && node dist/poc/validate-urdu.js"
+    "test:poc": "npm run build && node dist/poc/validate-urdu.js",
+    "test:suite": "npm run build && node dist/test-suite/run-suite.js"
   },
   "dependencies": {
     "@linguameet/types": "*",

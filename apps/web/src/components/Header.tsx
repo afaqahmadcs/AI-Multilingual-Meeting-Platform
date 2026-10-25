@@ -41,6 +41,14 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right Actions */}
         <div className="flex items-center gap-3">
+          <Link
+            href="/poc"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/30 text-indigo-300 hover:text-white text-xs font-semibold transition-all shadow-sm"
+          >
+            <Languages className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Phase 1 PoC Workbench</span>
+          </Link>
+
           {/* Language Selector */}
           {onLanguageChange && (
             <div className="flex items-center bg-slate-900/80 p-1 rounded-lg border border-slate-700/60 text-xs">
