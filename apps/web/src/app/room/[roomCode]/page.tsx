@@ -35,6 +35,8 @@ export default function RoomPage() {
     livekitUrl: string;
   } | null>(null);
 
+  const [joinError, setJoinError] = useState<string | null>(null);
+
   // Default guest name
   useEffect(() => {
     const savedName = localStorage.getItem('linguameet_name');
@@ -47,6 +49,7 @@ export default function RoomPage() {
 
   const handleJoin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setJoinError(null);
     if (!displayName.trim()) return;
 
     localStorage.setItem('linguameet_name', displayName.trim());
@@ -64,27 +67,18 @@ export default function RoomPage() {
       });
 
       const data = await res.json();
-      if (data.token) {
-        setTokenData({
-          token: data.token,
-          livekitUrl: data.livekitUrl,
-        });
-      } else {
-        // Fallback for development if LiveKit keys are not configured yet
-        setTokenData({
-          token: 'dev-token',
-          livekitUrl: 'wss://dev-instance.livekit.cloud',
-        });
+      if (!res.ok || !data.token) {
+        throw new Error(data.error || 'Failed to authorize meeting access');
       }
-      setHasJoined(true);
-    } catch (err) {
-      console.error('Token fetch error:', err);
-      // Fallback development join
+
       setTokenData({
-        token: 'dev-token',
-        livekitUrl: 'wss://dev-instance.livekit.cloud',
+        token: data.token,
+        livekitUrl: data.livekitUrl,
       });
       setHasJoined(true);
+    } catch (err: any) {
+      console.error('Token authorization error:', err);
+      setJoinError(err.message || 'Unable to join meeting');
     } finally {
       setIsLoadingToken(false);
     }
@@ -125,6 +119,14 @@ export default function RoomPage() {
               Configure your name, language, and devices before entering.
             </p>
           </div>
+
+          {/* Join Error Banner */}
+          {joinError && (
+            <div className="p-4 rounded-xl bg-red-950/40 border border-red-500/40 text-red-200 text-xs flex items-center gap-3 animate-in fade-in">
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-ping flex-shrink-0" />
+              <div className="flex-1 font-medium">{joinError}</div>
+            </div>
+          )}
 
           {/* Device & Camera Preview Tile */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">

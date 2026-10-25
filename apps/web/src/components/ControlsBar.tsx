@@ -27,6 +27,7 @@ interface ControlsBarProps {
   isParticipantsOpen: boolean;
   unreadCount?: number;
   userLanguage: SupportedLanguage;
+  translationFeatureEnabled?: boolean;
   onToggleMic: () => void;
   onToggleVideo: () => void;
   onToggleScreenShare: () => void;
@@ -48,6 +49,7 @@ export const ControlsBar: React.FC<ControlsBarProps> = ({
   isParticipantsOpen,
   unreadCount = 0,
   userLanguage,
+  translationFeatureEnabled = false,
   onToggleMic,
   onToggleVideo,
   onToggleScreenShare,
@@ -103,43 +105,48 @@ export const ControlsBar: React.FC<ControlsBarProps> = ({
           <ScreenShare className="w-5 h-5" />
         </button>
 
-        <div className="w-[1px] h-7 bg-slate-700/60 mx-1 hidden sm:block" />
+        {/* Subtitles & Audio Translation (Locked behind Phase 1 Feature Flag) */}
+        {translationFeatureEnabled && (
+          <>
+            <div className="w-[1px] h-7 bg-slate-700/60 mx-1 hidden sm:block" />
 
-        {/* Subtitles Toggle */}
-        <button
-          type="button"
-          onClick={onToggleSubtitles}
-          className={`p-3 rounded-xl transition-all flex items-center gap-1.5 ${
-            subtitlesEnabled
-              ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30'
-              : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-          }`}
-          title="Toggle Urdu/English Subtitles"
-        >
-          <Subtitles className="w-5 h-5" />
-          <span className="text-[11px] font-semibold hidden md:inline">CC</span>
-        </button>
+            {/* Subtitles Toggle */}
+            <button
+              type="button"
+              onClick={onToggleSubtitles}
+              className={`p-3 rounded-xl transition-all flex items-center gap-1.5 ${
+                subtitlesEnabled
+                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30'
+                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+              }`}
+              title="Toggle Urdu/English Subtitles"
+            >
+              <Subtitles className="w-5 h-5" />
+              <span className="text-[11px] font-semibold hidden md:inline">CC</span>
+            </button>
 
-        {/* Audio Translation Toggle */}
-        <button
-          type="button"
-          onClick={onToggleAudioTranslation}
-          className={`p-3 rounded-xl transition-all flex items-center gap-1.5 ${
-            audioTranslationEnabled
-              ? 'bg-gradient-to-r from-indigo-600 to-emerald-600 text-white shadow-lg shadow-indigo-500/30'
-              : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-          }`}
-          title={`Translated Voice (${userLanguage === 'en' ? 'Urdu to English' : 'English to Urdu'})`}
-        >
-          {audioTranslationEnabled ? (
-            <Volume2 className="w-5 h-5 text-emerald-300" />
-          ) : (
-            <VolumeX className="w-5 h-5" />
-          )}
-          <span className="text-[11px] font-semibold hidden md:inline">
-            {userLanguage === 'en' ? 'Voice EN' : 'صدا UR'}
-          </span>
-        </button>
+            {/* Audio Translation Toggle */}
+            <button
+              type="button"
+              onClick={onToggleAudioTranslation}
+              className={`p-3 rounded-xl transition-all flex items-center gap-1.5 ${
+                audioTranslationEnabled
+                  ? 'bg-gradient-to-r from-indigo-600 to-emerald-600 text-white shadow-lg shadow-indigo-500/30'
+                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+              }`}
+              title={`Translated Voice (${userLanguage === 'en' ? 'Urdu to English' : 'English to Urdu'})`}
+            >
+              {audioTranslationEnabled ? (
+                <Volume2 className="w-5 h-5 text-emerald-300" />
+              ) : (
+                <VolumeX className="w-5 h-5" />
+              )}
+              <span className="text-[11px] font-semibold hidden md:inline">
+                {userLanguage === 'en' ? 'Voice EN' : 'صدا UR'}
+              </span>
+            </button>
+          </>
+        )}
 
         <div className="w-[1px] h-7 bg-slate-700/60 mx-1 hidden sm:block" />
 
