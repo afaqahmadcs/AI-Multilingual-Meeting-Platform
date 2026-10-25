@@ -1,0 +1,11 @@
+{
+  "name": "@linguameet/supabase-config",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "scripts": {
+    "lint": "echo \"supabase lint ok\""
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4"
+  }
+}
